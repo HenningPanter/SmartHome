@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Smart Home 2.0</title>
+  <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+  <style type="text/css">
+    input[type=range]::-ms-thumb {
+      box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+      border: 1px solid #000000;
+      height: 100px;
+      width: 100px;
+      border-radius: 3px;
+      backgroun: #58ACFA;
+      cursor: pointer;
+      height: 8.4px;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+      border: 1px solid #000000;
+      height: 100px;
+      width: 100px;
+      border-radius: 3px;
+      background: #58ACFA;
+      cursor: pointer;
+      -webkit-appearance: none;
+      margin-top: -14px;
+    }
+
+    input[type=range]::-moz-range-thumb {
+      box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+      border: 1px solid #000000;
+      height: 100px;
+      width: 100px;
+      border-radius: 3px;
+      background: #58ACFA;
+      cursor: pointer;
+    }
+
+
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 100%;
+      margin: 13.8px 0;
+    }
+
+    input[type=range]:focus {
+      outline: none;
+    }
+
+    input[type=range]::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 8.4px;
+      cursor: pointer;
+      box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+      background: #3071a9;
+      border-radius: 1.3px;
+      border: 0.2px solid #010101;
+    }
+
+    input[type=range]:focus::-webkit-slider-runnable-track {
+      background: #367ebd;
+    }
+
+    input[type=range]::-moz-range-track {
+      width: 100%;
+      height: 8.4px;
+      cursor: pointer;
+      box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+      background: #3071a9;
+      border-radius: 1.3px;
+      border: 0.2px solid #010101;
+    }
+
+    input[type=range]::-ms-track {
+      width: 100%;
+      height: 8.4px;
+      cursor: pointer;
+      background: transparent;
+      border-color: transparent;
+      color: transparent;
+    }
+
+    input[type=range]::-ms-fill-lower {
+      background: #2a6495;
+      border: 0.2px solid #010101;
+      border-radius: 2.6px;
+      box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    }
+
+    input[type=range]::-ms-fill-upper {
+      background: #3071a9;
+      border: 0.2px solid #010101;
+      border-radius: 2.6px;
+      box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+    }
+  </style>
+
+
+</head>
+
+<body>
+  <div id="Buttons" style="z-index: 3">
+    <table width="100%">
+      <tr>
+        <td align="center">
+
+
+          <table cellspacing="40px">
+            <tr>
+              <td>
+                <span style="font-size: 40px">Sofa</span>
+              </td>
+              <td>
+                <input style="height: 100px; width: 200px; font-size: 60px" type="button" value="AN" id="a1">
+              </td>
+              <td>
+                <input style="height: 100px; width: 200px; font-size: 60px" type="button" value="AUS" id="a2">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span style="font-size: 40px">Baum</span>
+              </td>
+              <td>
+                <input style="height: 100px; width: 200px; font-size: 60px" type="button" value="AN" id="b1">
+              </td>
+              <td>
+                <input style="height: 100px; width: 200px; font-size: 60px" type="button" value="AUS" id="b2">
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span style="font-size: 40px">Trockner</span>
+              </td>
+              <td>
+                <input style="height: 100px; width: 200px; font-size: 60px" type="button" value="AN" id="c1">
+              </td>
+              <td>
+                <input style="height: 100px; width: 200px; font-size: 60px" type="button" value="AUS" id="c2">
+              </td>
+              <tr>
+                <td>
+                  <span style="font-size: 40px">Garten</span>
+                </td>
+                <td>
+                  <input style="height: 100px; width: 200px; font-size: 60px" type="button" value="AN" id="d1">
+                </td>
+                <td>
+                  <input style="height: 100px; width: 200px; font-size: 60px" type="button" value="AUS" id="d2">
+                </td>
+              </tr>
+          </table>
+
+        </td>
+        </tr>
+
+    </table>
+  </div>
+
+
+
+  <div id="LedFader" style="z-index: 3">
+    <table width="100%">
+
+      <tr>
+        <td align="center">
+          <p>
+            <b style="font-size: 40px">Weiß</b>
+          </p>
+        </td>
+      </tr>
+
+      <tr>
+        <td align="center">
+          <input id="FaderIDWeiss" type="range" min="0" max="24" value="0" />
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+        </td>
+      </tr>
+
+      <tr>
+        <td align="center">
+          <p>
+            <b style="font-size: 40px">Rot</b>
+          </p>
+        </td>
+      </tr>
+
+      <tr>
+        <td align="center">
+          <input id="FaderIDRot" type="range" min="0" max="24" value="0" />
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+        </td>
+      </tr>
+
+      <tr>
+        <td align="center">
+          <p>
+            <b style="font-size: 40px">Grün</b>
+          </p>
+        </td>
+      </tr>
+
+      <tr>
+        <td align="center">
+          <input id="FaderIDGruen" type="range" min="0" max="24" value="0" />
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+        </td>
+      </tr>
+
+      <tr>
+        <td align="center">
+          <p>
+            <b style="font-size: 40px">Blau</b>
+          </p>
+        </td>
+      </tr>
+
+      <tr>
+        <td align="center">
+          <input id="FaderIDBlau" type="range" min="0" max="24" value="0" />
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+        </td>
+      </tr>
+
+    </table>
+  </div>
+
+  <div id="output" style="z-index: 3"></div>
+
+
+  <div id="Reload" style="visibility: hidden; background-color:#6699CC; z-index: 4; position: absolute; top:0px; left:0px; height: 100%; width: 100%">
+    <table width="100%" style="height: 100%">
+
+      <tr>
+        <td align="center">
+          <p>
+            <b style="font-size: 60px; font:verdana">Touch to reload page</b>
+          </p>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <div id="Mars">
+    <table width="100%" style="height: 100%">
+
+      <tr>
+        <td align="center">
+
+          <a href="http://192.168.0.45/a/">
+            <b style="font-size: 60px; font:verdana">Terraforming Mars</b>
+          </a>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+</body>
+
+</html>
+
+<script>
+
+  jQuery(function ($) {
+
+    if (!("WebSocket" in window)) {
+      alert("Your browser does not support web sockets");
+    }
+    else {
+      setup();
+    }
+
+    function setup() {
+      var host = "ws://192.168.0.45:9090/ws";
+      var socket = new WebSocket(host);
+
+      var $FaderWeiss = $("#FaderIDWeiss");
+      var $FaderRot = $("#FaderIDRot");
+      var $FaderGruen = $("#FaderIDGruen");
+      var $FaderBlau = $("#FaderIDBlau");
+
+
+      var $ButtonA1 = $("#a1");
+      var $ButtonA2 = $("#a2");
+      var $ButtonB1 = $("#b1");
+      var $ButtonB2 = $("#b2");
+      var $ButtonC1 = $("#c1");
+      var $ButtonC2 = $("#c2");
+      var $ButtonD1 = $("#d1");
+      var $ButtonD2 = $("#d2");
+
+      var $ReloadPage = $("#Reload")
+
+      //--------------------------------------
+
+      $ReloadPage.on('click', function () {
+        document.getElementById('Reload').style.visibility = "hidden";
+        location.reload();
+      });
+
+
+      $FaderWeiss.on('input', function () {
+        var text = this.value;
+        socket.send("Weiss:" + text);
+      });
+
+      $FaderRot.on('input', function () {
+        var text = this.value;
+        socket.send("Rot:" + text);
+      });
+
+      $FaderGruen.on('input', function () {
+        var text = this.value;
+        socket.send("Gruen:" + text);
+      });
+
+      $FaderBlau.on('input', function () {
+        var text = this.value;
+        socket.send("Blau:" + text);
+      });
+
+      $ButtonA1.on('click', function () {
+        var text = this.value;
+        socket.send('a1');
+      });
+
+      $ButtonA2.on('click', function () {
+        var text = this.value;
+        socket.send('a2');
+      });
+      //-------------
+
+      $ButtonB1.on('click', function () {
+        var text = this.value;
+        socket.send('b1');
+      });
+
+      $ButtonB2.on('click', function () {
+        var text = this.value;
+        socket.send('b2');
+      });
+
+
+      $ButtonC1.on('click', function () {
+        var text = this.value;
+        socket.send('c1');
+      });
+
+      $ButtonC2.on('click', function () {
+        var text = this.value;
+        socket.send('c2');
+      });
+
+
+      $ButtonD1.on('click', function () {
+        var text = this.value;
+        socket.send('d1');
+      });
+
+      $ButtonD2.on('click', function () {
+        var text = this.value;
+        socket.send('d2');
+      });
+
+      //----------------------------------------
+
+
+
+
+      if (socket) {
+        socket.onopen = function () {
+        }
+
+        socket.onmessage = function (msg) {
+          showServerResponse(msg.data);
+        }
+
+        socket.onclose = function () {
+          showServerResponse("The connection has been closed.");
+          document.getElementById('Reload').style.visibility = "visible";
+        }
+
+      }
+      else {
+        console.log("invalid socket");
+      }
+
+      function showServerResponse(txt) {
+        //      var p = document.createElement('p');
+        //      p.innerHTML = txt;
+        document.getElementById('output').innerHTML = txt;
+      }
+    }
+
+  });
+
+</script>
