@@ -72,7 +72,9 @@ osMessageQId myQueue01Handle;
 bool bNewFrame;
 uint8_t Frame[FrameSize];
 uint8_t TestString[20];
-uint16_t Tabelle[30] = {0,20,40,60,80,100,150,200,300,400,500,750,1000,1500,2000,2500,3000,4000,5000,6000,7000,8000,10000,12000,13513,0};
+uint16_t Tabelle[100] = {0,5,10,20,30,40,50,60,70,80,90,10,120,140,160,180,200,250,300,350,400,450,500,550,600,650,700,750,800,850,900,950,1000,1200,1300,1400,1500,1600,1700,1800,1900,2000,2200,2400,2600,2800,3000,3200,3400,3600,3800,4000,4200,4400,4600,4800,5000,5200,5400,5600,5800,6000,6200,6400,6600,6800,7000,7200,7400,7600,7800,8000,8200,8400,8600,8800,9000,9200,9400,9600,9800,10000,10200,10400,10600,10800,11000,11200,11400,11600,11800,12000,12200,12400,12600,12800,13000,13200,13400,13513};
+
+uint32_t Weiss = 0,Rot = 0, Gruen = 0, Blau = 0;
 
 /* USER CODE END PV */
 
@@ -364,28 +366,32 @@ void ProzessFrame(void) {
 	HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
 
 	// Weiß:
-	if(Frame[10] > 24) {
-		Frame[10] = 24;
+	if(Frame[10] > 99) {
+		Frame[10] = 99;
 	}
-	htim2.Instance->CCR1 = Tabelle[Frame[10]];
+	Weiss = Tabelle[Frame[10]];
+//	htim2.Instance->CCR1 = Tabelle[Frame[10]];
 
 	// Rot:
-	if(Frame[11] > 24) {
-		Frame[11] = 24;
+	if(Frame[11] > 99) {
+		Frame[11] = 99;
 	}
-	htim2.Instance->CCR2 = Tabelle[Frame[11]];
+	Rot = Tabelle[Frame[11]];
+//	htim2.Instance->CCR2 = Tabelle[Frame[11]];
 
 	// Grün:
-	if(Frame[12] > 24) {
-		Frame[12] = 24;
+	if(Frame[12] > 99) {
+		Frame[12] = 99;
 	}
-	htim2.Instance->CCR3 = Tabelle[Frame[12]];
+	Gruen = Tabelle[Frame[12]];
+//	htim2.Instance->CCR3 = Tabelle[Frame[12]];
 
 	// Blau:
-	if(Frame[13] > 24) {
-		Frame[13] = 24;
+	if(Frame[13] > 99) {
+		Frame[13] = 99;
 	}
-	htim2.Instance->CCR4 = Tabelle[Frame[13]];
+	Blau = Tabelle[Frame[13]];
+//	htim2.Instance->CCR4 = Tabelle[Frame[13]];
 }
 
 /* USER CODE END 4 */
@@ -396,11 +402,139 @@ void Task_1(void const * argument)
 
   /* USER CODE BEGIN 5 */
 
-
+	uint32_t Delta = 0;
 
 	/* Infinite loop */
 	for (;;) {
-		osDelay(300);
+		osDelay(1);
+
+		if(htim2.Instance->CCR1 < Weiss)
+		{
+			Delta = Weiss - htim2.Instance->CCR1;
+
+			if(Delta > 500)
+			{
+				htim2.Instance->CCR1 += Delta/100;
+			}
+			else
+			{
+				htim2.Instance->CCR1 ++;
+			}
+
+		}
+		if(htim2.Instance->CCR1 > Weiss)
+		{
+			Delta = htim2.Instance->CCR1 - Weiss;
+
+			if(Delta > 500)
+			{
+				htim2.Instance->CCR1 -= Delta/100;
+			}
+			else
+			{
+				htim2.Instance->CCR1 --;
+			}
+		}
+
+
+
+
+		if(htim2.Instance->CCR2 < Rot)
+		{
+			Delta = Rot - htim2.Instance->CCR2;
+
+			if(Delta > 500)
+			{
+				htim2.Instance->CCR2 += Delta/100;
+			}
+			else
+			{
+				htim2.Instance->CCR2 ++;
+			}
+		}
+		if(htim2.Instance->CCR2 > Rot)
+		{
+			Delta = htim2.Instance->CCR2 - Rot;
+
+			if(Delta > 500)
+			{
+				htim2.Instance->CCR2 -= Delta/100;
+			}
+			else
+			{
+				htim2.Instance->CCR2 --;
+			}
+		}
+
+
+
+
+
+
+
+		if(htim2.Instance->CCR3 < Gruen)
+		{
+			Delta = Gruen - htim2.Instance->CCR3;
+
+			if(Delta > 500)
+			{
+				htim2.Instance->CCR3 += Delta/100;
+			}
+			else
+			{
+				htim2.Instance->CCR3 ++;
+			}
+		}
+		if(htim2.Instance->CCR3 > Gruen)
+		{
+			Delta = htim2.Instance->CCR3 - Gruen;
+
+			if(Delta > 500)
+			{
+				htim2.Instance->CCR3 -= Delta/100;
+			}
+			else
+			{
+				htim2.Instance->CCR3 --;
+			}
+		}
+
+
+
+
+
+
+
+
+
+
+		if(htim2.Instance->CCR4 < Blau)
+		{
+			Delta = Blau - htim2.Instance->CCR4;
+
+			if(Delta > 500)
+			{
+				htim2.Instance->CCR4 += Delta/100;
+			}
+			else
+			{
+				htim2.Instance->CCR4 ++;
+			}
+		}
+		if(htim2.Instance->CCR4 > Blau)
+		{
+			Delta = htim2.Instance->CCR4 - Blau;
+
+			if(Delta > 500)
+			{
+				htim2.Instance->CCR4 -= Delta/100;
+			}
+			else
+			{
+				htim2.Instance->CCR4 --;
+			}
+		}
+
 //		HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
 
 	}
