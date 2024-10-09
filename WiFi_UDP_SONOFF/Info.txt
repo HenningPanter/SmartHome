@@ -1,0 +1,3 @@
+Bei der Programmierung von SONOFF modulen muss in Arduino das Modul ESP8285 ausgewählt werden
+
+

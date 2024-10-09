@@ -1,0 +1,1 @@
+Register 30230 : 0xaa schreiben, um einen scan zu triggern

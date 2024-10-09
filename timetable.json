@@ -1,0 +1,30 @@
+{
+    "1":
+    {
+        "Aktion": "SONOFF_F_ON",
+        "Stunde": 5,
+        "Minute": 30,
+        "is_processed": false
+    },
+    "2":
+    {
+        "Aktion": "SONOFF_F_OFF",
+        "Stunde": 9,
+        "Minute": 0,
+        "is_processed": false
+    },
+    "3":
+    {
+        "Aktion": "SONOFF_F_ON",
+        "Stunde": 17,
+        "Minute": 0,
+        "is_processed": false
+    },
+    "4":
+    {
+        "Aktion": "SONOFF_F_OFF",
+        "Stunde": 23,
+        "Minute": 0,
+        "is_processed": false
+    } 
+}

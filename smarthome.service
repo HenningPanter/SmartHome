@@ -1,0 +1,15 @@
+[Unit]
+Description = Smart Home
+After = network.target
+
+[Service]
+User=root
+Type=simple
+Restart=always
+RestartSec=10
+
+ExecStart=/usr/bin/python3.10 /home/henning/freigabe/smarthome/home2.py
+WorkingDirectory=/home/henning/freigabe/smarthome
+
+[Install]
+WantedBy = multi-user.target

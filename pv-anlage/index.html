@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Energie Monitor</title>
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+
+    <style>
+        table {
+            border-spacing: 0px;
+        }
+
+        @font-face {
+            font-family: 'Verdana';
+            src: url('http://192.168.0.27/Verdana.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body {
+        font-size: 50px; /* Textgröße für die gesamte Seite */
+        font-family: 'Verdana';
+        background-color: #000000;
+        color: rgb(180, 180, 180);
+        }
+        progress {
+            height: 50px;
+        }
+
+        #Balken_positiv {
+            width: 0px;
+            height: 30px;
+            background-color: #4CAF50;
+            border-radius: 10px;
+            position: absolute;
+        }
+        #Balken_negativ {
+            width: 0px;
+            height: 30px;
+            background-color: #b00000;
+            border-radius: 10px;
+            position: absolute;
+        }
+        #Trennbalken {
+            width: 2px;
+            height: 30px;
+            background-color: #ffffff;
+            position: absolute;
+        }
+
+
+    </style>
+
+
+
+<script>
+    var counter = 0;
+    var richtung = 0;
+
+    var seitenbreite = 0;
+
+    function get_position(div) {
+        let rect = div.getBoundingClientRect();
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        let scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+        let absoluteTop = rect.top + scrollTop;
+        let absoluteLeft = rect.left + scrollLeft;
+        return [absoluteLeft, absoluteTop, rect.width, rect.height];
+    }
+
+
+    function beimSeitenLaden() {
+        let position = get_position(document.getElementById('rahmen'));
+        seitenbreite = position[2];
+        let positiv_Balken = document.getElementById('Balken_positiv');
+        positiv_Balken.style.left = (position[2] / 2) + 'px';
+
+        let negativ_Balken = document.getElementById('Balken_negativ');
+        negativ_Balken.style.left = ((position[2] / 2) - 100) + 'px';
+
+        let trennbalken =  document.getElementById('Trennbalken');
+        trennbalken.style.left = ((position[2] / 2) - 1) + 'px';
+    }
+
+
+
+    function running() {
+        
+        //console.log(counter);
+        if(counter > (seitenbreite/2 - 2)) {
+            richtung = 0;
+        }
+        if(counter < -(seitenbreite/2 - 2)) {
+            richtung = 1;
+        }
+
+        if (richtung == 1){
+            counter += 2;
+        }
+        if (richtung == 0){
+            counter -= 2;
+        }
+
+        //set_battery_power(counter);
+
+
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        setInterval(running, 10);
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        beimSeitenLaden();
+    });
+</script>
+
+
+</head>
+
+<body>
+
+    <div style="width: 100%; border: 0px; border-style: solid; border-radius: 30px; background-color: rgb(32,32,32); box-shadow: 0 0 10px 10px rgba(32, 32, 32, 1);">
+        <table style="text-align: left; width: 100%;" border="0px">
+            <tr style="text-align: center; width: 100%;">
+                <th style="width: 100%;">
+                    <table style="text-align: left; width: 100%;" border="0px">
+                        <tr style="color: #ffc800;">
+                            <th style="text-align: right; width: 49%; padding-top: 10px;">PV Leistung:</th>
+                            <th style="text-align: right; width: 2%;"></th>
+                            <th style="text-align: left; width: 49%; padding-top: 10px;"><div id = pv_leistung_id></div></th>
+                        </tr>
+                    </table>
+                </th>
+            </tr>
+            <tr>
+                <th style="width: 100%; text-align: center;">
+                    <table style="width: 100%;">
+                        <tr>
+                            <th style="width: 1%;"></th>
+                            <th style="width: 96%;">
+                                <div style=" width: 100%; height: 30px; border-radius: 10px; border-color: #505050; background-color: #404040;">
+                                    <div id="pv_power_progress" style=" width: 0%; height: 30px; border-radius: 10px; background-color: #0060b3;"></div>
+                                </div>
+                            </th>
+                            <th style="width: 1%;"></th>
+                        </tr>
+                    </table>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    <table style="text-align: left; width: 100%;" border="0px">
+                        <tr>
+                            <th  style="text-align: center;">
+                                <table style="width: 100%;">
+                                    <tr>
+                                        <th style="width: 1%;"></th>
+                                        <th style="width: 96%;">
+                                            <div style=" width: 100%; height: 30px; border-radius: 10px; border-color: #505050; background-color: #404040;">
+                                                <div id="verbrauch_progress" style=" width: 0%; height: 30px; border-radius: 10px; background-color: #0060b3;"></div>
+                                            </div>
+                                        </th>
+                                        <th style="width: 1%;"></th>
+                                    </tr>
+                                </table>
+                            </th>            
+                        </tr>
+                
+                        <tr>
+                            <table style="text-align: left; width: 100%;" border="0px">
+                                <tr>
+                                    <th style="text-align: right; width: 49%; padding-bottom: 10px;">Verbrauch:</th>
+                                    <th style="text-align: right; width: 2%;"></th>
+                                    <th style="text-align: left; width: 49%;" padding-top: 10px;><div id = verbrauch_id></div></th>
+                                </tr>
+                            </table>
+                        </tr>
+                    </table>
+                </th>
+            </tr>
+        </table>
+    </div>
+
+    <br>
+
+    <div style="width: 100%; border: 0px; border-style: solid; border-radius: 30px; background-color: rgb(32,32,32); box-shadow: 0 0 10px 10px rgba(32, 32, 32, 1);">
+        <table style="text-align: left; width: 100%;" border="0px">
+            <tr>
+                <th style="width: 100%; padding-top: 10px;">
+                    <table style="text-align: left; width: 100%;" border="0px">
+                        <tr>
+                            <th style="text-align: right; width: 33%; color: #00a000;">Akku</th>
+                            <th style="text-align: center; width: 33%;"><div id = ent_laedt></div></th>
+                            <th style="text-align: left; width: 33%; color: #00a000;"><div id = soc_id></div></th>
+                        </tr>
+                    </table>
+                </th>
+            </tr>
+            <tr>
+                <table style="width: 100%;">
+                    <tr>
+                        <th style="width: 1%;"></th>
+                        <th style="width: 96%;">
+                            <div style=" width: 100%; height: 30px; border-radius: 10px; border-color: #505050; background-color: #404040;">
+                                <div id="soc_progress" style=" width: 0%; height: 30px; border-radius: 10px; background-color: #0060b3;"></div>
+                            </div>
+                        </th>
+                        <th style="width: 1%;"></th>
+                    </tr>
+                </table>
+            </tr>
+        </table>
+
+        <br>
+
+        <table style="text-align: left; width: 100%; color: #00a000;" border="0px">
+            <tr>
+                <th style="text-align: center; width: 100%;"><div id = batterie_power_id></div></th>
+            </tr>
+        </table>
+
+        <div style="padding-top: 20px; padding-bottom: 20px;">
+            <div id="rahmen" style="width: 100%; height: 30px; border: 0px; border-style: solid; border-radius: 10px; border-color: #505050; background-color: #404040;">
+                <div id="Balken_positiv"></div>
+                <div id="Trennbalken"></div>
+                <div id="Balken_negativ"></div>
+            </div>
+        </div>
+
+        <table style="text-align: left; width: 100%; font-size: 30px; color: #00a000;">
+            <tr>
+                <th style="width: 50%; text-align: center; padding-bottom: 10px;"><div id = batterie_spannung_id st></div></th>
+                <th style="width: 50%; text-align: center; padding-bottom: 10px;"><div id = batterie_strom_id></div></th>
+            </tr>
+        </table>
+    </div>
+
+
+
+
+    <script>
+        function set_battery_power(wert) {
+
+            let rahmen = document.getElementById('rahmen');
+            let rahmen_values = get_position(rahmen);
+
+            let negativ_Balken = document.getElementById('Balken_negativ');
+            let positiv_Balken = document.getElementById('Balken_positiv');
+            let ent_laedt = document.getElementById('ent_laedt');
+
+            if(wert < 0){
+                positiv_Balken.style.width = '0px';
+                negativ_Balken.style.left = ((rahmen_values[2] / 2) - (-wert)) + 'px';
+                negativ_Balken.style.width = (-wert) + 'px';
+                ent_laedt.innerHTML = "entlädt";
+                ent_laedt.style.color = "#b00000";
+            }
+
+            if(wert > 0){
+                negativ_Balken.style.width = '0px';
+                positiv_Balken.style.width = wert + 'px';
+                ent_laedt.innerHTML = "lädt";
+                ent_laedt.style.color = "#0000c0";
+            }
+
+            if(wert == 0){
+                negativ_Balken.style.width = '0px';
+                positiv_Balken.style.width = '0px';
+                ent_laedt.innerHTML = " ";
+            }
+
+        }
+    </script>
+
+
+<br><br><br>
+
+
+<table style="width: 100%;" border="0px">
+    <tr>
+        <th style="width: 42%; text-align: center;">Carport</th>
+        <th style="width: 58%; text-align: center;">Haus</th>
+    </tr>
+    <tr>
+        <th><progress id="pv1_power_progress" value="0" max="4200" style="width: 100%;"></progress></th>
+        <th><progress id="pv2_power_progress" value="0" max="5880" style="width: 100%;"></progress></th>
+    </tr>
+    <tr>
+        <th>
+            <table style="width: 100%; font-size: 20px; color: rgb(255,255,0);">
+                <tr>
+                    <th style="text-align: center;"><div id = pv1_leistung_id></div></th>
+                    <th style="text-align: center;"><div id = pv1_spannung_id></div></th>
+                    <th style="text-align: center;"><div id = pv1_strom_id></div></th>
+                </tr>
+            </table>
+        </th>
+        <th>
+            <table style="width: 100%; font-size: 20px; color: rgb(255,255,0);;">
+                <tr>
+                    <th style="text-align: center;"><div id = pv2_leistung_id></div></th>
+                    <th style="text-align: center;"><div id = pv2_spannung_id></div></th>
+                    <th style="text-align: center;"><div id = pv2_strom_id></div></th>
+                </tr>
+            </table>
+        </th>
+    </tr>
+
+</table>
+
+
+
+<br><br><br>
+
+<table style="text-align: left; width: 100%;" border="0px">
+    <tr>
+        <table style="text-align: left; width: 100%;" border="0px">
+            <tr>
+                <th style="text-align: right; width: 49%;">Netz-Speisung:</th>
+                <th style="text-align: right; width: 2%;"></th>
+                <th style="text-align: left; width: 49%;"><div id = ac_netz_io></div></th>
+            </tr>
+        </table>
+    </tr>
+    <tr>
+        <th style="text-align: center;"><progress id="ac_netz_progress" value="0" max="11000" style="width: 100%;"></progress></th>            
+    </tr>
+</table>
+
+
+<div id="output">&nbsp;</div>
+
+<table style="width: 100%; visibility: hidden;">
+    <tr>
+        <th style="text-align: center;">
+            <input style="height: 160px; width: 80%; font-size: 50px;" type="button" value="Trigger Global scan" id="b1">            
+        </th>
+    </tr>
+</table>
+
+
+    <div id="schema" style="visibility: hidden; position: absolute; left: 0px; top: 0px; width: 100%; height: 100%; background-color: #d0d0d0; text-align: center; padding-top: 60px;">
+        <img id="image" src="http://192.168.0.27/haus.webp" alt="Bild zum Rotieren" width="20%" style="position: absolute;">
+    </div>
+
+
+<div id="reload" style="visibility: hidden; position: absolute; left: 0px; top: 0px; width: 100%; height: 100%; background-color: #000000; text-align: center; padding-top: 60px;">
+Bitte Seite neu laden
+</div>
+
+</body>
+</html>
+
+
+<script>
+
+    jQuery(function ($) {
+
+        if (!("WebSocket" in window)) {
+            alert("Your browser does not support web sockets");
+        }
+        else {
+            setup();
+        }
+        
+
+
+        function setup() {
+            var host = "ws://192.168.0.27:3333/ws";
+            var socket = new WebSocket(host);
+            var count = 0;
+            var $Nummer = $("#Nummer");
+
+
+
+            var $ButtonB1 = $("#b1");
+
+            $Nummer.focus();
+
+
+            $ButtonB1.on('click', function () {
+                var local_nummer = $Nummer.val();
+                socket.send("global_scan");
+            });
+
+
+
+
+            // event handlers for websocket
+            if (socket) {
+
+                socket.onopen = function () {
+                    //alert("connection opened....");
+                }
+
+                socket.onmessage = function (msg) {
+                    showServerResponse(msg.data);
+                    socket.send(count.toString());
+                    count += 1;
+
+                }
+
+                socket.onclose = function () {
+                    document.getElementById('reload').style.visibility = 'visible';
+                }
+
+            }
+            else {
+                console.log("invalid socket");
+            }
+
+            function showServerResponse(rcv_txt) {
+
+                try {
+
+                    // soc
+                    if (rcv_txt.includes("soc")) {
+                        const jsonObj = JSON.parse(rcv_txt);
+                        const value = jsonObj.soc;
+                        document.getElementById('soc_id').innerText = value.replace(".", ",");
+                        let progressBar = document.getElementById('soc_progress');
+                        let Zahl = parseFloat(value);
+                        progressBar.style.width = Zahl.toString() + "%" ;
+                    }
+
+
+                    // pv Leistung
+                    if (rcv_txt.includes("p_pv")) {
+                        let jsonObj = JSON.parse(rcv_txt);
+                        let value = jsonObj.p_pv;
+                        document.getElementById('pv_leistung_id').innerText = value;
+                        let progressBar = document.getElementById('pv_power_progress');
+                        let Zahl = parseFloat(value) * 1000 / 110;
+                        progressBar.style.width = Zahl.toString() + "%" ;
+                    }
+
+                    // pv1 Leistung
+                    if (rcv_txt.includes("p1_pv")) {
+                        let jsonObj = JSON.parse(rcv_txt);
+                        let value = jsonObj.p1_pv;
+                        document.getElementById('pv1_leistung_id').innerText = value;
+                        let progressBar = document.getElementById('pv1_power_progress');
+                        let Zahl = parseFloat(value) * 1000;
+                        progressBar.value = Zahl;
+                    }
+
+                    // pv1 Spannung
+                    if (rcv_txt.includes("u1_pv")) {
+                        let jsonObj = JSON.parse(rcv_txt);
+                        let value = jsonObj.u1_pv;
+                        document.getElementById('pv1_spannung_id').innerText = value;
+                    }
+
+                    // pv1 Strom
+                    if (rcv_txt.includes("i1_pv")) {
+                        let jsonObj = JSON.parse(rcv_txt);
+                        let value = jsonObj.i1_pv;
+                        document.getElementById('pv1_strom_id').innerText = value;
+                    }
+
+
+                    // pv2 Leistung
+                    if (rcv_txt.includes("p2_pv")) {
+                        let jsonObj = JSON.parse(rcv_txt);
+                        let value = jsonObj.p2_pv;
+                        document.getElementById('pv2_leistung_id').innerText = value;
+                        let progressBar = document.getElementById('pv2_power_progress');
+                        let Zahl = parseFloat(value) * 1000;
+                        progressBar.value = Zahl;
+                    }
+
+                    // pv2 Spannung
+                    if (rcv_txt.includes("u2_pv")) {
+                        let jsonObj = JSON.parse(rcv_txt);
+                        let value = jsonObj.u2_pv;
+                        document.getElementById('pv2_spannung_id').innerText = value;
+                    }
+
+                    // pv2 Strom
+                    if (rcv_txt.includes("i2_pv")) {
+                        let jsonObj = JSON.parse(rcv_txt);
+                        let value = jsonObj.i2_pv;
+                        document.getElementById('pv2_strom_id').innerText = value;
+                    }
+
+
+
+
+
+                    // aktueller Verbrauch
+                    if (rcv_txt.includes("verbrauch_aktuell")) {
+                        let jsonObj = JSON.parse(rcv_txt);
+                        let value = jsonObj.verbrauch_aktuell;
+                        document.getElementById('verbrauch_id').innerText = value;
+                        let progressBar = document.getElementById('verbrauch_progress');
+                        let Zahl = parseFloat(value) * 1000 / 110;
+                        progressBar.style.width = Zahl.toString() + "%" ;
+                    }
+
+                
+
+                    // ac Netz I/O
+                    if (rcv_txt.includes("ac_netz_io")) {
+                        const jsonObj = JSON.parse(rcv_txt);
+                        const value = jsonObj.ac_netz_io;
+                        document.getElementById('ac_netz_io').innerText = value;    
+                    }
+
+
+                    // Batterie Spannung
+                    if (rcv_txt.includes("batterie_spannung")) {
+                        const jsonObj = JSON.parse(rcv_txt);
+                        const value = jsonObj.batterie_spannung;
+                        document.getElementById('batterie_spannung_id').innerText = value;    
+                    }
+
+                    // Batterie Strom
+                    if (rcv_txt.includes("batterie_strom")) {
+                        const jsonObj = JSON.parse(rcv_txt);
+                        const value = jsonObj.batterie_strom;
+                        document.getElementById('batterie_strom_id').innerText = value;    
+                    }
+
+                    // Batterie Ladeleistung
+                    if (rcv_txt.includes("batterie_power")) {
+                        const jsonObj = JSON.parse(rcv_txt);
+                        let value = jsonObj.batterie_power;
+                        document.getElementById('batterie_power_id').innerText = value;
+                        let normierter_wert = (seitenbreite / 2) * ((parseFloat(value) * 1000) / 4200)
+                        set_battery_power(normierter_wert);
+                    }
+
+
+                } catch (error) {
+                    console.error(error);
+                }
+
+
+                
+                // verarbeitung von NICHT json strings:
+
+                if (!(rcv_txt.includes("{"))) {
+                    document.getElementById('output').innerText = rcv_txt;
+                }
+
+
+            }
+        }
+
+    });
+
+</script>

@@ -147,6 +147,14 @@
                 <input style="height: 160px; width: 200px; font-size: 60px; border-radius: 12px; border: 4px solid #202020; color:  rgb(240, 0, 0); background-color: #151720;" type="button" value="AUS" id="d2">
               </td>
             </tr>
+          </table>
+        </td>
+      </tr>
+
+
+      </tr>
+        </td>
+          <table cellspacing="40px" align="center">
             <tr>
               <td>
                 <span style="font-size: 50px; color: rgb(180, 180, 180);">Pool  </span>
@@ -158,32 +166,9 @@
                 <input style="height: 160px; width: 200px; font-size: 60px; border-radius: 12px; border: 4px solid #202020; color:  rgb(240, 0, 0); background-color: #151720;" type="button" value="AUS" id="pool_id_aus">
               </td>
             </tr>
-
-
-
-            <tr>
-              <td>
-                <span style="font-size: 50px; color: rgb(180, 180, 180);">Arbeits-<br>zimmer</span>
-              </td>
-              <td>
-                <input style="height: 160px; width: 200px; font-size: 60px; border-radius: 12px; border: 4px solid #202020; color:  rgb(255, 180, 0); background-color: #151720;" type="button" value="AN" id="j1">
-              </td>
-              <td>
-                <input style="height: 160px; width: 200px; font-size: 60px; border-radius: 12px; border: 4px solid #202020; color:  rgb(240, 0, 0); background-color: #151720;" type="button" value="AUS" id="j2">
-              </td>
-            </tr>
-
-
-
-
           </table>
         </td>
       </tr>
-
-
-
-
-
     </table>
   </div>
 
@@ -394,7 +379,17 @@
                 </td>
               </tr>
 
-
+            <tr>
+              <td>
+                <span style="font-size: 50px; color: rgb(201, 0, 0);">Kommode</span>
+              </td>
+              <td>
+                <input style="height: 100px; width: 200px; font-size: 60px" type="button" value="AN" id="e1">
+              </td>
+              <td>
+                <input style="height: 100px; width: 200px; font-size: 60px" type="button" value="AUS" id="e2">
+              </td>
+            </tr>
             
 
 
@@ -411,6 +406,26 @@
                 <input style="height: 100px; width: 200px; font-size: 60px" type="button" value="AUS" id="h2">
               </td>
             </tr>
+
+
+
+            <tr>
+              <td>
+                <span style="font-size: 50px; color: rgb(201, 0, 0);">F</span>
+              </td>
+              <td>
+                <input style="height: 100px; width: 200px; font-size: 60px" type="button" value="AN" id="j1">
+              </td>
+              <td>
+                <input style="height: 100px; width: 200px; font-size: 60px" type="button" value="AUS" id="j2">
+              </td>
+            </tr>
+
+
+
+
+
+
 
 
           </table>
@@ -477,6 +492,8 @@
       var $ButtonJ2 = $("#j2");
 
 
+
+
       var $ReloadPage = $("#Reload")
 
       //--------------------------------------
@@ -538,7 +555,6 @@
         socket.send('d2');  // garten
         socket.send('SONOFF_A_OFF');  // Licht Kommode
         socket.send('SONOFF_E_OFF');  // Tannenbaum
-        socket.send('SONOFF_F_OFF');  // Arbeitszimmer
         $("#UntenAusInOut").fadeIn(500);
         $("#UntenAusInOut").delay(200).fadeOut(500);
       });

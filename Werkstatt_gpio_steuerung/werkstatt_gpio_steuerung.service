@@ -1,0 +1,15 @@
+[Unit]
+Description = Modbus und CAN Tracer
+After = network.target
+
+[Service]
+User=root
+Type=simple
+Restart=always
+RestartSec=10
+
+ExecStart=/home/pi/freigabe/werkstatt_gpio_steuerung
+WorkingDirectory=/home/pi/freigabe
+
+[Install]
+WantedBy = multi-user.target
